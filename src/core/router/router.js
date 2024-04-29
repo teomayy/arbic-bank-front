@@ -21,7 +21,7 @@ export class Router {
 		document.addEventListener('click', event => {
 			const target = event.target.closest('a')
 
-			if (target) {
+			if (target) {  
 				event.preventDefault()
 				this.navigate(target.href)
 			}

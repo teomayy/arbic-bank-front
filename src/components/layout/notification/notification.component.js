@@ -9,7 +9,7 @@ export class Notification extends ChildComponent {
 	render() {
 		this.element = renderService.htmlToElement(template, [], styles)
 
-		window.storageServive = new StorageService()
+		window.storageService = new StorageService()
 		return this.element
 	}
 }

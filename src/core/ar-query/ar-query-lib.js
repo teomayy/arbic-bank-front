@@ -13,6 +13,9 @@
  */
 
 import { SERVER_URL } from '@/config/url.config'
+import { ACCESS_TOKEN_KEY } from '@/constants/auth.constants'
+import { NotificationService } from '../services/notification.service'
+import { StorageService } from '../services/storage.service'
 import { extractErrorMessage } from './extract-error-message'
 
 export async function arQuery({
@@ -21,7 +24,7 @@ export async function arQuery({
 	headers = {},
 	method = 'GET',
 	onError = null,
-	onSuccess = null
+	onSuccess = null,
 }) {
 	let isLoading = true,
 		error = null,
@@ -29,14 +32,14 @@ export async function arQuery({
 	const url = `${SERVER_URL}/api${path}`
 
 	/* ACCESS_TOKEN from localStorage */
-	const accessToken = ''
+	const accessToken = new StorageService().getItem(ACCESS_TOKEN_KEY)
 
 	const requestOptions = {
 		method,
 		headers: {
 			'Content-Type': 'application/json',
-			...headers
-		}
+			...headers,
+		},
 	}
 
 	if (accessToken) {
@@ -63,7 +66,7 @@ export async function arQuery({
 				onError(errorMessage)
 			}
 
-			/* Notification error */
+			new NotificationService().show('error', errorMessage)
 		}
 	} catch (errorData) {
 		const errorMessage = extractErrorMessage(errorData)

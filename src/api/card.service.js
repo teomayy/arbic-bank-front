@@ -1,11 +1,12 @@
 import { arQuery } from '@/core/ar-query/ar-query-lib'
 import { NotificationService } from '@/core/services/notification.service'
+import { Store } from '@/core/store/store'
 
 export class CardService {
 	#BASE_URL = '/cards'
 
 	constructor() {
-		//store
+		this.store = Store.getInstance()
 		this.notificationService = new NotificationService()
 	}
 
@@ -52,7 +53,7 @@ export class CardService {
 			method: 'PATCH',
 			body: {
 				amount: +amount,
-				// fromCardnumber: this.store.user.card.number,
+				fromCardnumber: this.store.user.card.number,
 				toCardNumber,
 			},
 			onSuccess: () => {
